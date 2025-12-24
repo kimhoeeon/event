@@ -12,7 +12,6 @@
             --text-color: #2d3436;
             --accent-gold: #d4af37; /* 고급스러운 골드 */
             --accent-red: #c0392b;
-            --accent-green: #27ae60;
         }
 
         body {
@@ -53,6 +52,7 @@
             text-align: center;
             position: relative;
             border: 3px solid var(--accent-gold); /* 골드 테두리 */
+            box-sizing: border-box; /* 패딩 포함 너비 계산 */
         }
 
         /* 장식 요소 (리본 느낌) */
@@ -70,6 +70,7 @@
             font-size: 0.9rem;
             white-space: nowrap;
             box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            z-index: 10;
         }
 
         /* --- 1. 잠금 화면 스타일 --- */
@@ -92,6 +93,7 @@
             line-height: 1.6;
             color: #555;
             margin-bottom: 1.5rem;
+            word-break: keep-all; /* 단어 단위 줄바꿈 */
         }
 
         .timer-box {
@@ -126,23 +128,24 @@
             font-size: 1.2rem;
         }
 
-        /* 입금 확인 버튼 (골드 스타일) */
+        /* [수정됨] 입금 확인 버튼 (골드 스타일 + 중앙 정렬 픽스) */
         .bank-check-btn {
-            display: block;
-            width: 100%;
+            display: block; /* 블록 요소로 설정 */
+            width: 100%;    /* 컨테이너 꽉 차게 */
+            box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
+            text-align: center; /* 텍스트 중앙 정렬 강제 */
             padding: 18px;
             margin-top: 30px;
             background: linear-gradient(135deg, var(--accent-gold), #bf9b30);
-            color: white;
+            color: white !important; /* 링크 색상 강제 흰색 */
             font-size: 1.2rem;
             font-weight: bold;
             border: none;
             border-radius: 12px;
             cursor: pointer;
-            text-decoration: none;
+            text-decoration: none; /* 밑줄 제거 */
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
             transition: transform 0.2s;
-            /* 모바일 터치감 향상 */
             -webkit-tap-highlight-color: transparent;
         }
         .bank-check-btn:active { transform: scale(0.98); }
@@ -183,15 +186,18 @@
                 당신을 위해 준비한 내 마음이야.<br>
                 <span class="desc-highlight">지금 바로 계좌를 확인해봐!</span>
             </p>
-            <div class="bank-check-btn">✨ 1,000,000원 확인하기</div>
+            
+            <a href="kakaobank://launch" class="bank-check-btn">
+                🎁 선물 확인하기
+            </a>
         </div>
     </div>
 
     <script>
         // =================================================================
-        // [중요] 예약 이체 시간으로 수정하세요! (YYYY-MM-DDTHH:mm:ss 형식)
-        // 현재 테스트를 위해 2025년 12월 24일 저녁 8시로 설정되어 있습니다.
-        const TARGET_DATE = new Date('2025-12-24T10:55:00'); 
+        // [필수] 예약 이체 시간으로 수정하세요! (YYYY-MM-DDTHH:mm:ss 형식)
+        // 테스트를 위해 임시로 2025년 크리스마스 이브로 설정해 두었습니다.
+        const TARGET_DATE = new Date('2025-12-24T20:00:00'); 
         // =================================================================
 
         function updateTimer() {
@@ -201,18 +207,15 @@
             const lockedScreen = document.getElementById('locked-screen');
             const openedScreen = document.getElementById('opened-screen');
 
-            // 시간이 되었거나 지났으면 -> 오픈 화면 표시
             if (diff <= 0) {
                 if (lockedScreen.style.display !== 'none') {
                     lockedScreen.style.display = 'none';
                     openedScreen.style.display = 'block';
-                    // 타이머가 돌고 있었다면 멈춤
                     if (window.timerInterval) clearInterval(window.timerInterval);
                 }
                 return;
             }
 
-            // 시간이 남았으면 -> 카운트다운 계산 및 표시
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
@@ -224,7 +227,6 @@
             document.getElementById('countdown').innerText = `${h}:${m}:${s}`;
         }
 
-        // 초기 실행 및 1초 단위 갱신
         updateTimer(); 
         window.timerInterval = setInterval(updateTimer, 1000);
     </script>
