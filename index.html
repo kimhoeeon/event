@@ -2,86 +2,158 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surprise Event</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Merry Christmas!</title>
     <style>
+        /* --- 테마 컬러 정의 --- */
+        :root {
+            --bg-color: #a41316; /* 깊은 레드 */
+            --card-bg: #fffcf7; /* 따뜻한 크림색 */
+            --text-color: #2d3436;
+            --accent-gold: #d4af37; /* 고급스러운 골드 */
+            --accent-red: #c0392b;
+            --accent-green: #27ae60;
+        }
+
         body {
             margin: 0;
             padding: 0;
+            min-height: 100vh;
+            /* 눈 내리는 배경 효과 (CSS Only) */
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 4px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 4px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            animation: snow 10s linear infinite;
+            
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #f8f9fa;
-            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-            text-align: center;
-        }
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            width: 80%;
-            max-width: 400px;
-        }
-        /* 잠금 상태 스타일 */
-        #locked-screen {
-            display: block;
-        }
-        .lock-icon {
-            font-size: 50px;
-            margin-bottom: 20px;
-        }
-        .timer {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #ff6b6b;
-            margin: 20px 0;
-        }
-        .message {
-            color: #666;
-            line-height: 1.6;
-        }
-        
-        /* 공개 상태 스타일 */
-        #opened-screen {
-            display: none;
-        }
-        .gift-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-            animation: bounce 2s infinite;
-        }
-        .congrats {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #2f3542;
-            margin-bottom: 10px;
-        }
-        .desc {
-            font-size: 1.1rem;
-            color: #57606f;
-            margin-bottom: 30px;
-        }
-        .bank-check-btn {
-            background-color: #fee500; /* 카카오 느낌 */
-            color: #3b1e1e;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            width: 100%;
-            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+            color: var(--text-color);
+            overflow: hidden; /* 스크롤 방지 */
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-20px);}
-            60% {transform: translateY(-10px);}
+        @keyframes snow {
+            0% { background-position: 0px 0px, 40px 60px, 130px 270px; }
+            100% { background-position: 550px 1000px, 350px 1060px, 250px 1270px; }
+        }
+
+        /* 메인 카드 스타일 */
+        .container {
+            background: var(--card-bg);
+            padding: 2.5rem 2rem;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            width: 85%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            border: 3px solid var(--accent-gold); /* 골드 테두리 */
+        }
+
+        /* 장식 요소 (리본 느낌) */
+        .container::before {
+            content: '❄️ MERRY CHRISTMAS ❄️';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-red);
+            color: gold;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        /* --- 1. 잠금 화면 스타일 --- */
+        #locked-screen { display: block; }
+
+        .main-icon {
+            font-size: 80px;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            margin: 0 0 1rem 0;
+            color: var(--accent-red);
+        }
+
+        .message {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .timer-box {
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+        .timer-label { font-size: 0.9rem; color: #777; margin-bottom: 5px;}
+        .timer {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-red);
+            font-variant-numeric: tabular-nums; /* 숫자 너비 고정 */
+        }
+        
+        /* --- 2. 공개 화면 스타일 --- */
+        #opened-screen { display: none; }
+
+        .gift-animate { animation: tada 1.5s infinite; }
+
+        .congrats {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-red);
+            margin-bottom: 1rem;
+        }
+        
+        .desc-highlight {
+            font-weight: bold;
+            color: var(--accent-red);
+            font-size: 1.2rem;
+        }
+
+        /* 입금 확인 버튼 (골드 스타일) */
+        .bank-check-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin-top: 30px;
+            background: linear-gradient(135deg, var(--accent-gold), #bf9b30);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            transition: transform 0.2s;
+            /* 모바일 터치감 향상 */
+            -webkit-tap-highlight-color: transparent;
+        }
+        .bank-check-btn:active { transform: scale(0.98); }
+
+        /* 선물 상자 흔들림 애니메이션 */
+        @keyframes tada {
+            0% {transform: scale(1);}
+            10%, 20% {transform: scale(0.9) rotate(-3deg);}
+            30%, 50%, 70%, 90% {transform: scale(1.1) rotate(3deg);}
+            40%, 60%, 80% {transform: scale(1.1) rotate(-3deg);}
+            100% {transform: scale(1) rotate(0);}
         }
     </style>
 </head>
@@ -89,31 +161,38 @@
 
     <div class="container">
         <div id="locked-screen">
-            <div class="lock-icon">🔒</div>
-            <h2>조금만 기다려주세요</h2>
-            <p class="message">아직 선물을 공개할 시간이<br>되지 않았습니다.</p>
-            <div class="timer" id="countdown">00:00:00</div>
-            <p style="font-size:0.9rem; color:#aaa;">(설정된 시간에 자동으로 열립니다)</p>
+            <div class="main-icon">🎄</div>
+            <h2>산타가 오고 있어요!</h2>
+            <p class="message">
+                사랑하는 아내를 위한<br>
+                특별한 선물이 준비 중입니다.
+            </p>
+            <div class="timer-box">
+                <div class="timer-label">선물 도착까지 남은 시간</div>
+                <div class="timer" id="countdown">00:00:00</div>
+            </div>
+            <p style="font-size:0.9rem; color:#aaa;">(잠시 후 자동으로 열립니다 ❤️)</p>
         </div>
 
         <div id="opened-screen">
-            <div class="gift-icon">🎁</div>
-            <div class="congrats">사랑하는 아내에게</div>
-            <p class="desc">
-                올 한해도 정말 고생 많았어.<br>
-                작은 선물을 준비했으니<br>
-                지금 바로 계좌를 확인해봐!
+            <div class="main-icon gift-animate">🎁</div>
+            <div class="congrats">Merry Christmas!</div>
+            <p class="message">
+                올 한해도 우리 가족을 위해<br>
+                너무나 고생 많았어.<br><br>
+                당신을 위해 준비한 내 마음이야.<br>
+                <span class="desc-highlight">지금 바로 계좌를 확인해봐!</span>
             </p>
-            <div class="bank-check-btn">1,000,000원 입금 확인하기</div>
+            <div class="bank-check-btn">✨ 1,000,000원 확인하기</div>
         </div>
     </div>
 
     <script>
-        // ==========================================
-        // [설정] 여기에 원하시는 날짜와 시간을 입력하세요 (YYYY-MM-DDTHH:mm:ss)
-        // 예: 2024년 12월 25일 저녁 7시 -> '2024-12-25T19:00:00'
-        const TARGET_DATE = new Date('2024-12-25T19:00:00'); 
-        // ==========================================
+        // =================================================================
+        // [중요] 예약 이체 시간으로 수정하세요! (YYYY-MM-DDTHH:mm:ss 형식)
+        // 현재 테스트를 위해 2025년 12월 24일 저녁 8시로 설정되어 있습니다.
+        const TARGET_DATE = new Date('2025-12-24T20:00:00'); 
+        // =================================================================
 
         function updateTimer() {
             const now = new Date();
@@ -122,19 +201,22 @@
             const lockedScreen = document.getElementById('locked-screen');
             const openedScreen = document.getElementById('opened-screen');
 
-            // 시간이 지났으면 오픈 화면 표시
+            // 시간이 되었거나 지났으면 -> 오픈 화면 표시
             if (diff <= 0) {
-                lockedScreen.style.display = 'none';
-                openedScreen.style.display = 'block';
+                if (lockedScreen.style.display !== 'none') {
+                    lockedScreen.style.display = 'none';
+                    openedScreen.style.display = 'block';
+                    // 타이머가 돌고 있었다면 멈춤
+                    if (window.timerInterval) clearInterval(window.timerInterval);
+                }
                 return;
             }
 
-            // 시간이 남았으면 카운트다운 계산
+            // 시간이 남았으면 -> 카운트다운 계산 및 표시
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-            // 두 자리수로 포맷팅
             const h = hours.toString().padStart(2, '0');
             const m = minutes.toString().padStart(2, '0');
             const s = seconds.toString().padStart(2, '0');
@@ -142,9 +224,9 @@
             document.getElementById('countdown').innerText = `${h}:${m}:${s}`;
         }
 
-        // 1초마다 타이머 갱신
-        setInterval(updateTimer, 1000);
-        updateTimer(); // 로드 시 즉시 실행
+        // 초기 실행 및 1초 단위 갱신
+        updateTimer(); 
+        window.timerInterval = setInterval(updateTimer, 1000);
     </script>
 </body>
 </html>
