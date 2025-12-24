@@ -212,8 +212,7 @@
 
     <script>
         // =================================================================
-        // [설정] 2025년 크리스마스 이브 저녁 9시로 설정 예시
-        // 실제 이벤트 시간에 맞춰서 수정해주세요.
+        // [설정] 2025년 크리스마스 이브 저녁 9시 (수정 불필요)
         const TARGET_DATE = new Date('2025-12-25T21:00:00'); 
         // =================================================================
 
@@ -234,11 +233,17 @@
                 return;
             }
 
-            // 남은 시간 계산
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            // [수정된 부분] 날짜(Day)를 제외하지 않고 전체 시간을 시간 단위로 계산
+            // 기존: const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            
+            // 변경: 전체 밀리초를 바로 시간으로 나눔 (예: 32시간 남음 -> 32로 표시)
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
+            // 시간은 2자리 또는 3자리일 수 있으니 padStart 제거하거나 그대로 둬도 무방
+            // (3자리 시간이 되어도 자연스럽게 표시됩니다)
             const h = hours.toString().padStart(2, '0');
             const m = minutes.toString().padStart(2, '0');
             const s = seconds.toString().padStart(2, '0');
@@ -246,7 +251,6 @@
             document.getElementById('countdown').innerText = `${h}:${m}:${s}`;
         }
 
-        // 초기 실행 및 인터벌 설정
         updateTimer(); 
         window.timerInterval = setInterval(updateTimer, 1000);
     </script>
