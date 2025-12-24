@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise Event</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 400px;
+        }
+        /* 잠금 상태 스타일 */
+        #locked-screen {
+            display: block;
+        }
+        .lock-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        .timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin: 20px 0;
+        }
+        .message {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* 공개 상태 스타일 */
+        #opened-screen {
+            display: none;
+        }
+        .gift-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+        .congrats {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2f3542;
+            margin-bottom: 10px;
+        }
+        .desc {
+            font-size: 1.1rem;
+            color: #57606f;
+            margin-bottom: 30px;
+        }
+        .bank-check-btn {
+            background-color: #fee500; /* 카카오 느낌 */
+            color: #3b1e1e;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="locked-screen">
+            <div class="lock-icon">🔒</div>
+            <h2>조금만 기다려주세요</h2>
+            <p class="message">아직 선물을 공개할 시간이<br>되지 않았습니다.</p>
+            <div class="timer" id="countdown">00:00:00</div>
+            <p style="font-size:0.9rem; color:#aaa;">(설정된 시간에 자동으로 열립니다)</p>
+        </div>
+
+        <div id="opened-screen">
+            <div class="gift-icon">🎁</div>
+            <div class="congrats">사랑하는 아내에게</div>
+            <p class="desc">
+                올 한해도 정말 고생 많았어.<br>
+                작은 선물을 준비했으니<br>
+                지금 바로 계좌를 확인해봐!
+            </p>
+            <div class="bank-check-btn">1,000,000원 입금 확인하기</div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // [설정] 여기에 원하시는 날짜와 시간을 입력하세요 (YYYY-MM-DDTHH:mm:ss)
+        // 예: 2024년 12월 25일 저녁 7시 -> '2024-12-25T19:00:00'
+        const TARGET_DATE = new Date('2024-12-25T19:00:00'); 
+        // ==========================================
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = TARGET_DATE - now;
+
+            const lockedScreen = document.getElementById('locked-screen');
+            const openedScreen = document.getElementById('opened-screen');
+
+            // 시간이 지났으면 오픈 화면 표시
+            if (diff <= 0) {
+                lockedScreen.style.display = 'none';
+                openedScreen.style.display = 'block';
+                return;
+            }
+
+            // 시간이 남았으면 카운트다운 계산
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            // 두 자리수로 포맷팅
+            const h = hours.toString().padStart(2, '0');
+            const m = minutes.toString().padStart(2, '0');
+            const s = seconds.toString().padStart(2, '0');
+
+            document.getElementById('countdown').innerText = `${h}:${m}:${s}`;
+        }
+
+        // 1초마다 타이머 갱신
+        setInterval(updateTimer, 1000);
+        updateTimer(); // 로드 시 즉시 실행
+    </script>
+</body>
+</html>
